@@ -20,3 +20,4 @@ Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 
 Route::post('std_register', 'API\StudentController@studentRegistration');
+Route::post('std_update', 'API\StudentController@updateStudent');

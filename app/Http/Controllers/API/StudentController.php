@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\StudentDetails;
 use Validator;
@@ -41,5 +42,22 @@ class StudentController extends Controller
     		];
     		return response()->json($response, 400);
     	}
+    }
+
+    public function updateStudent(Request $request) 
+    {
+
+    	$req_std_id = $request->std_id;
+    	$updateDetails =  $request->all();
+
+    	$student = StudentDetails::where('std_id', $req_std_id)
+    							->update($updateDetails);
+
+		$response = [
+			'success' => true,
+			'data'	  => [],
+			'message' => 'Update successfully!'
+    	];
+    	return response()->json($response, 201);
     }
 }
