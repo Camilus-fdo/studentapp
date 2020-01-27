@@ -18,3 +18,5 @@ use Illuminate\Http\Request;
 # });
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
+
+Route::post('std_register', 'API\StudentController@studentRegistration');
