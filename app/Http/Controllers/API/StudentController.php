@@ -51,7 +51,7 @@ class StudentController extends Controller
     	$updateDetails =  $request->all();
 
     	$student = StudentDetails::where('std_id', $req_std_id)
-    							->update($updateDetails);
+    							 ->update($updateDetails);
 
 		$response = [
 			'success' => true,
@@ -60,4 +60,12 @@ class StudentController extends Controller
     	];
     	return response()->json($response, 201);
     }
+
+    public function listStudents()
+    {
+    	$students = StudentDetails::all();
+
+    	dd($students);
+    }
+
 }
