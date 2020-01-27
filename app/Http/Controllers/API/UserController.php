@@ -10,6 +10,11 @@ use Validator;
 
 class UserController extends Controller
 {
+	public function login_page()
+	{
+		echo "login page";
+	}
+
 	public function register(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
