@@ -24,6 +24,8 @@ Route::post('register', 'API\UserController@register');
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('list_students', 'API\StudentController@listStudents');
 	Route::post('std_register', 'API\StudentController@studentRegistration');
-	Route::post('std_update', 'API\StudentController@updateStudent');	
+	Route::post('std_update', 'API\StudentController@updateStudent');
+	Route::post('std_interdict', 'API\StudentController@studentsInterdict');
+	Route::post('std_activation', 'API\StudentController@studentActivation');	
 });
 

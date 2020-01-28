@@ -47,18 +47,28 @@ class StudentController extends Controller
     public function updateStudent(Request $request) 
     {
 
-    	$req_std_id = $request->std_id;
-    	$updateDetails =  $request->all();
+    	$req_std_id 	= $request->std_id;
+    	$updateDetails 	=  $request->all();
 
     	$student = StudentDetails::where('std_id', $req_std_id)
     							 ->update($updateDetails);
-
-		$response = [
-			'success' => true,
-			'data'	  => [],
-			'message' => 'Update successfully!'
-    	];
-    	return response()->json($response, 201);
+    	if($student == 1)
+    	{
+    		$response = [
+				'success' => true,
+				'data'	  => [],
+				'message' => 'Update successfully!'
+    		];
+    		return response()->json($response, 200);	
+    	}else{
+    		$response = [
+				'success' => false,
+				'data'	  => [],
+				'message' => 'Update Failed!'
+    		];
+    		return response()->json($response, 404);
+    	}
+		
     }
 
     public function listStudents()
@@ -66,6 +76,89 @@ class StudentController extends Controller
     	$students = StudentDetails::all();
 
     	dd($students);
+    }
+
+    public function studentsInterdict(Request $request)  
+    {
+    	$req_std_id 		= $request->std_id;
+    	$req_active_status	= $request->std_active_status;
+
+    	$active_status = $this->checkStdActivation($req_std_id);
+    	
+    	if($active_status == 1)
+    	{
+    		$student = StudentDetails::where('std_id', $req_std_id)
+    							 ->update(['std_active_status' => 0]);
+
+	    	if($student == 1)
+	    	{
+	    		$response = [
+					'success' => true,
+					'data'	  => [],
+					'message' => 'Student interdicted!'
+	    		];
+	    		return response()->json($response, 200);
+	    	}else{
+	    		$response = [
+					'success' => true,
+					'data'	  => [],
+					'message' => 'Interdict process failed. Please check student id'
+	    		];
+	    		return response()->json($response, 404);
+	    	}
+    	}else{
+    		$response = [
+				'success' => false,
+				'data'	  => [],
+				'message' => 'Student alredy interdicted'
+	    	];
+	    	return response()->json($response, 404);
+    	}	
+    }
+
+    public function studentActivation(Request $request)
+    {
+    	$req_std_id 		= $request->std_id;
+    	$req_active_status	= $request->std_active_status;
+
+    	$active_status = $this->checkStdActivation($req_std_id);
+
+    	if($active_status == 0)
+    	{
+    		$student = StudentDetails::where('std_id', $req_std_id)
+    							 ->update(['std_active_status' => 1]);
+
+	    	if($student == 1)
+	    	{
+	    		$response = [
+					'success' => true,
+					'data'	  => [],
+					'message' => 'Student Activated!'
+	    		];
+	    		return response()->json($response, 200);
+	    	}else{
+	    		$response = [
+					'success' => true,
+					'data'	  => [],
+					'message' => 'Activation process failed. Please check student id'
+	    		];
+	    		return response()->json($response, 404);
+	    	}
+    	}else{
+    		$response = [
+				'success' => false,
+				'data'	  => [],
+				'message' => 'Student alredy Activated'
+	    	];
+	    	return response()->json($response, 404);
+    	}
+    }
+
+    public function checkStdActivation($std_id)
+    {
+    	$student = StudentDetails::all()->where('std_id', $std_id)->first();
+    	$active_status = $student->std_active_status;
+    	return $active_status;
     }
 
 }
