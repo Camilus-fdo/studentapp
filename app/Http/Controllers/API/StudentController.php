@@ -84,7 +84,7 @@ class StudentController extends Controller
     	$req_active_status	= $request->std_active_status;
 
     	$active_status = $this->checkStdActivation($req_std_id);
-    	
+
     	if($active_status == 1)
     	{
     		$student = StudentDetails::where('std_id', $req_std_id)
@@ -160,5 +160,7 @@ class StudentController extends Controller
     	$active_status = $student->std_active_status;
     	return $active_status;
     }
+
+    
 
 }
